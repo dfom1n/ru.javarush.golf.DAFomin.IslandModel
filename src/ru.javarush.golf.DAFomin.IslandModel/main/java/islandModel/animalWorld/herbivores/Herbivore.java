@@ -10,7 +10,7 @@ public interface Herbivore {
 //     сытость на сейчас
         double satiety = animal.getAnimalCharacteristics().getSatiety();
 //        Вес растения
-        double plantWeight = plant.getWeight();
+        double plantWeight = plant.getAnimalCharacteristics().getWeight();
         if ((amountFoodToSatiate - satiety) > 0) {
             animal.getAnimalCharacteristics().setSatiety(satiety + plantWeight);
             if(animal.getAnimalCharacteristics().getSatiety()>animal.getAnimalCharacteristics().getAmountFoodToSatiate()){

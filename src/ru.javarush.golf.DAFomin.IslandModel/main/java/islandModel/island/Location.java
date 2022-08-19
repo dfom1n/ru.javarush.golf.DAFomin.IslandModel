@@ -51,11 +51,12 @@ public class Location {
             locationListPlant.getListPlant().removeIf(plant -> {
                 Plant plantEat = locationListPlant.getListPlant().get(ThreadLocalRandom.current().nextInt(locationListPlant.getListPlant().size() - 1));
                 herbivore.eatPlant(herbivore, plantEat);
+//                System.out.println(herbivore.getAnimalCharacteristics().getIcon() + " " + plant + " " + plantEat);
                 return plant.equals(plantEat);
             });
             eatingHerbivoreBoolean = true;
         } else starve(herbivore);
-//        System.out.println("Herbivore" + " " + herbivore.getClass().getName() + " " + "getAmountFoodToSatiate" + " " + herbivore.getAmountFoodToSatiate() + " " + "getSatiety" + " " + herbivore.getSatiety() + " " + (herbivore.getAmountFoodToSatiate() - herbivore.getSatiety()));
+//        System.out.println("Herbivore" + " " + herbivore.getAnimalCharacteristics().getName() + " " + "getAmountFoodToSatiate" + " " + herbivore.getAnimalCharacteristics().getAmountFoodToSatiate() + " " + "getSatiety" + " " + herbivore.getAnimalCharacteristics().getSatiety() + " " + (herbivore.getAnimalCharacteristics().getAmountFoodToSatiate() - herbivore.getAnimalCharacteristics().getSatiety()));
 //        System.out.println(listHerbivore);
         return eatingHerbivoreBoolean;
     }
@@ -67,10 +68,11 @@ public class Location {
     }
 
     public <T extends Animal> void starve(T animal) {
-        double starvation = animal.getAnimalCharacteristics().getAmountFoodToSatiate()*0.9;
-        animal.getAnimalCharacteristics().setSatiety(animal.getAnimalCharacteristics().getSatiety()-starvation);
-        if (animal.getAnimalCharacteristics().getSatiety()<=0){
+        double starvation = animal.getAnimalCharacteristics().getAmountFoodToSatiate() * 0.9;
+        animal.getAnimalCharacteristics().setSatiety(animal.getAnimalCharacteristics().getSatiety() - starvation);
+        if (animal.getAnimalCharacteristics().getSatiety() <= 0) {
             locationListAnimal.getListAnimal().removeIf(e -> e.equals(animal));
+//            System.out.println("умерло животное");
         }
     }
 
@@ -81,6 +83,7 @@ public class Location {
 //        T predator = (T) locationListAnimal.getListAnimal().stream().filter(animal -> animal instanceof Predator).findAny().stream().collect(Collectors.toList());
         T predator = listPredators.get(ThreadLocalRandom.current().nextInt(listPredators.size() - 1));
         T victim = (T) locationListAnimal.getListAnimal().get(ThreadLocalRandom.current().nextInt(locationListAnimal.getListAnimal().size() - 1));
+//        System.out.println(predator.getAnimalCharacteristics().getIcon() + " " + victim.getAnimalCharacteristics().getIcon());
 //        predator.eatAnimal(predator, victim);
 //        System.out.println(locationListAnimal.getListAnimal().stream().filter(animal -> animal.equals(victim)).count());
         if (chancesEatingPredator(predator, victim)) {
@@ -127,11 +130,45 @@ public class Location {
 
     public <T extends Animal> void moving(Island island) {
         T animalMove = (T) locationListAnimal.getListAnimal().get(ThreadLocalRandom.current().nextInt(this.locationListAnimal.getListAnimal().size()));
-        if (animalMove.move(getCoordinates(), island)) {
+        if (move(animalMove, getCoordinates(), island)) {
             locationListAnimal.getListAnimal().removeIf(animal -> animal.equals(animalMove));
-//            System.out.println(animalMove.getClass().getName());
+//            System.out.println(animalMove);
         }
+    }
 
+    public <T extends Animal> boolean move(T animal, Coordinates coordinates, Island island) {
+        Location locationMove = null;
+        directionMovement directionMovement = directionMovementRandom();
+        int moveSpeedRandom = movementSpeedRandom(animal);
+//        берем координыты действующей локации
+        int oldLocationX = coordinates.getOrdinateX();
+        int oldLocationY = coordinates.getOrdinateY();
+//        ищем координыты новой локации (подставляем к к координатам действующей локации енам)
+        int locationMoveX = oldLocationX + (directionMovement.getX() * moveSpeedRandom);
+        int locationMoveY = oldLocationY + (directionMovement.getY() * moveSpeedRandom);
+//        если локация с новыми координатами существует
+        if ((oldLocationX == locationMoveX && oldLocationY == locationMoveY) || (locationMoveX < 0 || locationMoveY < 0)) {
+            locationMove = null;
+        } else if (island.getSizeIsland().getLength() - 1 >= locationMoveX && island.getSizeIsland().getWidth() - 1 >= locationMoveY) {
+            locationMove = island.moveToLocation(locationMoveX, locationMoveY);
+//            System.out.println(animal);
+            locationMove.getLocationListAnimal().setAnimal(animal);
+        }
+        if (locationMove != null) {
+            return true;
+        } else return false;
+    }
+
+
+    public directionMovement directionMovementRandom() {
+        return directionMovement.values()[ThreadLocalRandom.current().nextInt(directionMovement.values().length - 1)];
+    }
+
+    public <T extends Animal> Integer movementSpeedRandom(T animal) {
+        if (animal instanceof Caterpillar) {
+            return 0;
+        } else
+            return ThreadLocalRandom.current().nextInt(1, animal.getAnimalCharacteristics().getMaxSpeedToLocation() + 1);
     }
 
     public Lock getLock() {
@@ -142,10 +179,10 @@ public class Location {
     public String toString() {
         HashMap<String, Integer> locationStatistics = new HashMap<>();
         for (Animal animal : this.locationListAnimal.getListAnimal()) {
-            locationStatistics.put(animal.animalName(), (int) this.locationListAnimal.getListAnimal().stream().filter(e->e.getClass().getName().equals(animal.getClass().getName())).count());
+            locationStatistics.put(animal.getAnimalCharacteristics().getIcon(), (int) this.locationListAnimal.getListAnimal().stream().filter(e -> e.getClass().getName().equals(animal.getClass().getName())).count());
         }
         for (Plant plant : this.locationListPlant.getListPlant()) {
-            locationStatistics.put(plant.plantName(), (int) this.locationListPlant.getListPlant().stream().filter(e->e.getClass().getName().equals(plant.getClass().getName())).count());
+            locationStatistics.put(plant.plantName(), (int) this.locationListPlant.getListPlant().stream().filter(e -> e.getClass().getName().equals(plant.getClass().getName())).count());
         }
         String locationStatisticsString = this.getCoordinates().showCoordinate() + locationStatistics.toString();
         return locationStatisticsString;

@@ -5,8 +5,7 @@ import islandModel.island.Settings;
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class SpecificationCreaturesCharacteristics {
-
+public class SpecificationCharacteristics {
     Settings settings = Settings.get();
     private String name;
     private String icon;
@@ -16,24 +15,18 @@ public class SpecificationCreaturesCharacteristics {
     private double amountFoodToSatiate;
     private double satiety;
 
-    public SpecificationCreaturesCharacteristics(SpecificationCharacteristics specificationCharacteristics) {
-        this.name = specificationCharacteristics.getName();
-        this.icon = specificationCharacteristics.getIcon();
-        this.weight = specificationCharacteristics.getWeight();
-        this.maxCountSpecies = specificationCharacteristics.getMaxCountSpecies();
-        this.maxSpeedToLocation = specificationCharacteristics.getMaxSpeedToLocation();
-        this.amountFoodToSatiate = specificationCharacteristics.getAmountFoodToSatiate();
-        this.satiety = ThreadLocalRandom.current().nextDouble(specificationCharacteristics.getSatiety());
+    public SpecificationCharacteristics(){
+
     }
 
-    public SpecificationCreaturesCharacteristics(SpecificationCharacteristics specificationCharacteristics, String Plant){
-        this.name = specificationCharacteristics.getName();
-        this.icon = specificationCharacteristics.getIcon();
-        this.weight = ThreadLocalRandom.current().nextDouble(specificationCharacteristics.getWeight());
-        this.maxCountSpecies = specificationCharacteristics.getMaxCountSpecies();
-        this.maxSpeedToLocation = specificationCharacteristics.getMaxSpeedToLocation();
-        this.amountFoodToSatiate = specificationCharacteristics.getAmountFoodToSatiate();
-        this.satiety = specificationCharacteristics.getSatiety();
+    public SpecificationCharacteristics(String name, String icon, double weight, int maxCountSpecies, int maxSpeedToLocation, double amountFoodToSatiate, double satiety) {
+        this.name = name;
+        this.icon = icon;
+        this.weight = weight;
+        this.maxCountSpecies = maxCountSpecies;
+        this.maxSpeedToLocation = maxSpeedToLocation;
+        this.amountFoodToSatiate = amountFoodToSatiate;
+        this.satiety = ThreadLocalRandom.current().nextDouble(satiety);
     }
 
 
@@ -75,7 +68,7 @@ public class SpecificationCreaturesCharacteristics {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SpecificationCreaturesCharacteristics that = (SpecificationCreaturesCharacteristics) o;
+        SpecificationCharacteristics that = (SpecificationCharacteristics) o;
         return Double.compare(that.weight, weight) == 0 && maxCountSpecies == that.maxCountSpecies && maxSpeedToLocation == that.maxSpeedToLocation && Double.compare(that.amountFoodToSatiate, amountFoodToSatiate) == 0 && Double.compare(that.satiety, satiety) == 0 && Objects.equals(name, that.name) && Objects.equals(icon, that.icon);
     }
 

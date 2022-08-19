@@ -2,6 +2,7 @@ package islandModel.island;
 
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import islandModel.animalWorld.SpecificationCharacteristics;
 import islandModel.animalWorld.SpecificationCreaturesCharacteristics;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class Settings {
 //    шанс Получить Еду
     private Map<String, Map<String, Integer>> chanceToGetEat;
 //    общие характеристики организмов
-    private Map<String, SpecificationCreaturesCharacteristics> creaturesCommonSpecs;
+    private Map<String, SpecificationCharacteristics> creaturesCommonSpecs;
 //    Типы организмов
     private List<String> creaturesTypesList;
 //    нежизнеспособный Весовой процент
@@ -48,7 +49,11 @@ public class Settings {
     }
 
     public SpecificationCreaturesCharacteristics getCreaturesCommonSpecsByType(String creaturesTypes) {
-        return creaturesCommonSpecs.get(creaturesTypes);
+        SpecificationCreaturesCharacteristics specificationCreaturesCharacteristics = null;
+        if (creaturesTypes.equals("Plant")){
+        specificationCreaturesCharacteristics = new SpecificationCreaturesCharacteristics(creaturesCommonSpecs.get(creaturesTypes), creaturesTypes);
+        } else specificationCreaturesCharacteristics = new SpecificationCreaturesCharacteristics(creaturesCommonSpecs.get(creaturesTypes));
+        return specificationCreaturesCharacteristics;
     }
 
     public int getLengthIsland() {
@@ -75,7 +80,7 @@ public class Settings {
         return chanceToGetEat;
     }
 
-    public Map<String, SpecificationCreaturesCharacteristics> getCreaturesCommonSpecs() {
+    public Map<String, SpecificationCharacteristics> getCreaturesCommonSpecs() {
         return creaturesCommonSpecs;
     }
 

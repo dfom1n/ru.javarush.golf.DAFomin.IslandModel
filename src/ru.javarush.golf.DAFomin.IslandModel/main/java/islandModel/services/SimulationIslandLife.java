@@ -2,6 +2,7 @@ package islandModel.services;
 
 import islandModel.island.Island;
 import islandModel.island.Location;
+import islandModel.island.Settings;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -13,11 +14,11 @@ public class SimulationIslandLife extends Thread{
     private final Island island;
 
 //ПРОДОЛЖИТЕЛЬНОСТЬ ЖИЗНЕННОГО ЦИКЛА Settings.get().getCycleDuration()
-    private final long LIFE_CYCLE_DURATION = 50;
+    private final long LIFE_CYCLE_DURATION = Settings.get().getCycleDuration();
 //ОСТАНОВКА ПО ТАЙМ-АУТУ Settings.get().getStopOnTimeout()
-    private final Boolean STOP_ON_TIMEOUT = true;
+    private final Boolean STOP_ON_TIMEOUT = Settings.get().getStopOnTimeout();
     //    ПРОДОЛЖИТЕЛЬНОСТЬ ИГРЫ Settings.get().getGameDuration()
-    private final int GAME_DURATION = 30000;
+    private final int GAME_DURATION = Settings.get().getGameDuration();
     public SimulationIslandLife(Island island) {
         this.island = island;
     }
@@ -26,7 +27,7 @@ public class SimulationIslandLife extends Thread{
     public void run() {
         island.print();
         //
-        ScheduledExecutorService simulationScheduledThreadPool = Executors.newScheduledThreadPool(8);
+        ScheduledExecutorService simulationScheduledThreadPool = Executors.newScheduledThreadPool(4);
         simulationScheduledThreadPool.scheduleWithFixedDelay(this::runAndWaitLocationLife, LIFE_CYCLE_DURATION, LIFE_CYCLE_DURATION, TimeUnit.MILLISECONDS);
 
         if (STOP_ON_TIMEOUT) runTimer();

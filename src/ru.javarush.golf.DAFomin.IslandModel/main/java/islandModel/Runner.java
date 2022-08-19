@@ -12,8 +12,6 @@ public class Runner {
     public static void main(String[] args) {
         Initializer initializer = new Initializer();
         Island island = initializer.createIsland();
-        System.out.println(island.getSizeIsland().getLength());
-        System.out.println(island.getSizeIsland().getWidth());
         SimulationIslandLife simulationIslandLife = new SimulationIslandLife(island);
         simulationIslandLife.start();
     }

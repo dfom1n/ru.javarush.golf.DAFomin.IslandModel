@@ -1,10 +1,10 @@
 #Размер острова
-lengthIsland: 6
-widthIsland: 4
+lengthIsland: 1
+widthIsland: 2
 #ПРОДОЛЖИТЕЛЬНОСТЬ ЖИЗНЕННОГО ЦИКЛА
 cycleDuration: 1000 # millis
 stopOnTimeout: True # specified in gameDuration below ОСТАНОВКА ПО ТАЙМ-АУТУ
-gameDuration: 10000 # millis продолжительность игры
+gameDuration: 20000 # millis продолжительность игры
 #initialBirthPercent: 90 #начальный Процент рождаемости
 unviableWeightPercent: 50 #нежизнеспособный Весовой процент
 #animalGrowUpPercent: 20 #процент Взросления Животных
@@ -76,7 +76,7 @@ creaturesCommonSpecs:
   "Wolf":
     "name": "Волк"
     "icon": 🐺
-    weight: 50
+    "weight": 50
     "maxCountSpecies": 30
     "maxSpeedToLocation": 3
     "amountFoodToSatiate": 8
