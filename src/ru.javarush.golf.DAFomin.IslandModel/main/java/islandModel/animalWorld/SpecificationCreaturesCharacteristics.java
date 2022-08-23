@@ -1,6 +1,6 @@
 package islandModel.animalWorld;
 
-import islandModel.island.Settings;
+import islandModel.services.Settings;
 
 import java.util.Objects;
 import java.util.concurrent.ThreadLocalRandom;

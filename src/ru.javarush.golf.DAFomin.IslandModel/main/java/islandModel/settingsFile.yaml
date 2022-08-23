@@ -1,15 +1,9 @@
-#Размер острова
-lengthIsland: 1
-widthIsland: 2
-#ПРОДОЛЖИТЕЛЬНОСТЬ ЖИЗНЕННОГО ЦИКЛА
-cycleDuration: 1000 # millis
-stopOnTimeout: True # specified in gameDuration below ОСТАНОВКА ПО ТАЙМ-АУТУ
-gameDuration: 20000 # millis продолжительность игры
-#initialBirthPercent: 90 #начальный Процент рождаемости
-unviableWeightPercent: 50 #нежизнеспособный Весовой процент
-#animalGrowUpPercent: 20 #процент Взросления Животных
-#plantGrowUpPercent: 5 #процент Роста растений
-#шанс Получить Еду
+lengthIsland: 4
+widthIsland: 6
+cycleDuration: 1000
+stopOnTimeout: True
+gameDuration: 60000
+unviableWeight: 0.5
 chanceToGetEat:
   "Wolf":
     "Horse": 10
@@ -71,7 +65,6 @@ chanceToGetEat:
     "Plant": 100
   "Caterpillar":
     "Plant": 100
-  #общие характеристики организмов
 creaturesCommonSpecs:
   "Wolf":
     "name": "Волк"

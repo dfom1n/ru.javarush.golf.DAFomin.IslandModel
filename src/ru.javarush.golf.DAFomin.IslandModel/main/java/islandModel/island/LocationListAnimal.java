@@ -28,7 +28,7 @@ public class LocationListAnimal<T extends Animal> {
         listAnimalDefault.add((T) new Boa());
         listAnimalDefault.add((T) new Eagle());
         listAnimalDefault.add((T) new Fox());
-//        listAnimalDefault.add((T) new Wolf());
+        listAnimalDefault.add((T) new Wolf());
         this.countAnimalsLocation = ThreadLocalRandom.current().nextDouble(maxCountAnimalsLocation);
     }
 
@@ -82,7 +82,6 @@ public class LocationListAnimal<T extends Animal> {
     }
 
     public List<T> getListAnimal() {
-//        System.out.println(listAnimal);
         return listAnimal;
     }
 

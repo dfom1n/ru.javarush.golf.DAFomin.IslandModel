@@ -1,14 +1,14 @@
 package islandModel.island;
 
+import islandModel.services.Settings;
+
 public class SizeIsland {
     private final int length;
     private final int width;
 
     public SizeIsland() {
         this.length = Settings.get().getLengthIsland();
-//        this.length = Settings.get().getLengthIsland();
         this.width = Settings.get().getWidthIsland();
-//        this.width = Settings.get().getWidthIsland();
     }
 
     public int getWidth() {

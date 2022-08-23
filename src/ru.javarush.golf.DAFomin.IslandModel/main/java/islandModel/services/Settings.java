@@ -1,4 +1,4 @@
-package islandModel.island;
+package islandModel.services;
 
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
@@ -30,7 +30,7 @@ public class Settings {
 //    Типы организмов
     private List<String> creaturesTypesList;
 //    нежизнеспособный Весовой процент
-    private int unviableWeightPercent;
+    private int unviableWeight;
 
 
     public Settings() {
@@ -88,8 +88,8 @@ public class Settings {
         return creaturesTypesList;
     }
 
-    public int getUnviableWeightPercent() {
-        return unviableWeightPercent;
+    public int getUnviableWeight() {
+        return unviableWeight;
     }
 
 

@@ -1,40 +1,28 @@
 package islandModel.services;
 
+import islandModel.animalWorld.Animal;
 import islandModel.island.Island;
 import islandModel.island.Location;
-import islandModel.island.LocationWorker;
 
-public class TaskLocation {
+public class TaskLocation<T extends Animal> {
     private final Island island;
     private final Location location;
-    private final LocationWorker locationWorker;
+    private final T animal;
 
-    public TaskLocation(Island island, Location location) {
+    public TaskLocation(Island island, Location location, T animal) {
         this.island = island;
         this.location = location;
-        this.locationWorker = new LocationWorker();
+        this.animal = animal;
     }
 
     public void perform() {
-        if (location != null) {
-            if (locationWorker.eatingHerbivoreSafe(location)) {
-
-                locationWorker.breedingSafe(location);
-            }
-//            if (locationWorker.eatingPredatorSafe(location) & locationWorker.eatingHerbivoreSafe(location)) {
-//
-//                locationWorker.breedingSafe(location);
-//            }
-            locationWorker.eatingPredatorSafe(location);
-            locationWorker.starveAnimalSafe(location);
-            locationWorker.movingSafe(island, location);
+        if (location != null && animal != null) {
+            animal.eatingHerbivore(location);
+            animal.eatingPredator(location);
+            animal.breeding(location);
+            animal.starveAnimal(location);
+            animal.moving(island, location);
         }
-//
-//        else {
-//            organism.growUp(area);
-//            organism.multiply(area);
-//        }
-//        organism.starve(area);
-    }
 
+    }
 }

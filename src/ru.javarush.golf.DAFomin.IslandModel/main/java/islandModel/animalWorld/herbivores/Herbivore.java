@@ -5,11 +5,8 @@ import islandModel.animalWorld.plant.Plant;
 
 public interface Herbivore {
     public default <T extends Animal> void eatPlant(T animal, Plant plant) {
-//        сколько нужно еды
         double amountFoodToSatiate = animal.getAnimalCharacteristics().getAmountFoodToSatiate();
-//     сытость на сейчас
         double satiety = animal.getAnimalCharacteristics().getSatiety();
-//        Вес растения
         double plantWeight = plant.getAnimalCharacteristics().getWeight();
         if ((amountFoodToSatiate - satiety) > 0) {
             animal.getAnimalCharacteristics().setSatiety(satiety + plantWeight);

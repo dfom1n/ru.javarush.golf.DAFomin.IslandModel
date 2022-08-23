@@ -1,42 +1,49 @@
 package islandModel.services;
 
+import islandModel.animalWorld.Animal;
 import islandModel.island.Island;
 import islandModel.island.Location;
 
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
 
 public class SimulationLocationLife implements Runnable{
     private final Island island;
-    private final Location location;
+    private final String creaturesType;
     private final Queue<TaskLocation> tasks = new ConcurrentLinkedQueue<>();
 
-    public SimulationLocationLife(Island island, Location location) {
+    public SimulationLocationLife(Island island, String creaturesType) {
         this.island = island;
-        this.location = location;
+        this.creaturesType = creaturesType;
     }
 
     @Override
     public void run() {
-
-                createTasksLocation();
-
+        Location[][] locations = island.getLocations();
+        for (Location[] lengthLocations : locations) {
+            for (Location location : lengthLocations) {
+                createTasksLocation(location);
+            }
+        }
     }
 
 
-    private void createTasksLocation() {
-        if (location != null) {
+    private void createTasksLocation(Location location) {
+        List<? extends Animal> animals = (List<? extends Animal>) location.getLocationListAnimal().getListAnimal().stream().filter(animal -> animal.getClass().getSimpleName().equals(creaturesType)).collect(Collectors.toList());
+        if (animals != null) {
             location.getLock().lock();
             try {
-
-                    tasks.add(new TaskLocation(island, location));
+                for (Animal animal : animals) {
+                    tasks.add(new TaskLocation(island, location, animal));
+                }
 
             } finally {
                 location.getLock().unlock();
             }
         }
-
         tasks.forEach(TaskLocation::perform);
         tasks.clear();
     }

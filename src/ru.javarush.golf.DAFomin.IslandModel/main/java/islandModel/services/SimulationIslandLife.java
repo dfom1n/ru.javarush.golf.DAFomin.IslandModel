@@ -1,8 +1,6 @@
 package islandModel.services;
 
 import islandModel.island.Island;
-import islandModel.island.Location;
-import islandModel.island.Settings;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -33,11 +31,32 @@ public class SimulationIslandLife extends Thread{
         if (STOP_ON_TIMEOUT) runTimer();
     }
 
+//    ArrayList<OrganismWorker> organismWorkers = new ArrayList<>();
+//        for (String organismType : Settings.get().getOrganismsTypes()) {
+//        organismWorkers.add(new OrganismWorker(organismType, game.getWorld()));
+//    }
+//    //
+//    int CORE_POOL_SIZE = 4;
+//    ExecutorService fixedThreadPool = Executors.newFixedThreadPool(CORE_POOL_SIZE);
+//        for (OrganismWorker organismWorker : organismWorkers) {
+//        fixedThreadPool.submit(organismWorker);
+//    }
+//        fixedThreadPool.shutdown();
+//
+//        try {
+//        if (fixedThreadPool.awaitTermination(Integer.MAX_VALUE, TimeUnit.DAYS)) {
+//            game.showStatistics();
+//        }
+//    } catch (InterruptedException e) {
+//        //
+//        System.out.println("The game is finished");
+//    }
+
 //    метод вызвать у локации
     private void runAndWaitLocationLife() {
         ArrayList<SimulationLocationLife> simulationLocationLives = new ArrayList<>();
-        for (Location location : island.getLocationList()) {
-            simulationLocationLives.add(new SimulationLocationLife(island, location));
+        for (String creaturesType : Settings.get().getCreaturesTypes()) {
+            simulationLocationLives.add(new SimulationLocationLife(island, creaturesType));
         }
         //
         int CORE_POOL_SIZE = 4;
